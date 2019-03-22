@@ -15,7 +15,7 @@ var EditProductPage = function(){
     /**
      * Save product button
      */
-    this.saveProductButton = $('button.mat-flat-button mat-primary');
+    this.saveProductButton = $('[type="submit"]');
 
 };
 module.exports = new EditProductPage();

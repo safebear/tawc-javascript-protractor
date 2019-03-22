@@ -285,10 +285,11 @@ using(editProducts.productEditInfo, function(products, description) {
 
       // EP06
       // Click on the `Save` button
+      expect(checks.elementIsEnabled(editProductPage.saveProductButton));
       actions.clickOnElement(editProductPage.saveProductButton);
 
       // ASSERT: We are taken to the `View Product` screen
-      expect(checks.getUrl).toContain(viewProductPage.url);
+      expect(checks.getUrl()).toContain(viewProductPage.url);
 
       // ASSERT: The `name`, `description` and `price` of the product have been updated.
       expect(await checks.elementsArePresent(viewProductPage.productName(products.editName))).toBe(true);

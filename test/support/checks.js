@@ -18,5 +18,6 @@ var Checks = function(){
     // Get value of field
     this.getFieldValue = async function (element) { return await element.getAttribute('value') }
 
+
 };
 module.exports = new Checks();
