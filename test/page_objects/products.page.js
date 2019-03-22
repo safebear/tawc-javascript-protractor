@@ -14,11 +14,12 @@ var ProductsPage = function(){
 
     /**
      * Used to create the locator for the Product element (we don't know what our product name will be)
-     * @param {object} product
+     * @param {string} productName name of the product
      * @returns {ElementFinder} element
      */
-    this.getProductInTable = function(product){
-        return element.all(by.cssContainingText('td.mat-cell', product.name));
+    this.getProductInTable = function(productName){
+        
+        return element.all(by.cssContainingText('td.mat-cell', productName));
     }
 
 

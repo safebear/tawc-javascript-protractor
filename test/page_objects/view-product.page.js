@@ -8,11 +8,30 @@ var ViewProductPage = function(){
 
     /**
      * Used to create the locator for the Product element (we don't know what our product name will be)
-     * @param {object} product
+     * @param {string} product name
      * @returns {ElementFinder} element
      */
-    this.productName = function(product){
-        return element(by.cssContainingText('h2', product.name));
+    this.productName = function(productName){
+
+        return element(by.cssContainingText('h2', productName));
+    }
+
+    /**
+     * Used to create the locator for the Product element (we don't know what our product description will be)
+     * @param {string} product description
+     * @returns {ElementFinder} element
+     */
+    this.productDescription = function(productDescription){
+        return element(by.cssContainingText('mat-card-subtitle', productDescription));
+    }
+
+    /**
+     * Used to create the locator for the Product element (we don't know what our product price will be)
+     * @param {string} product price
+     * @returns {ElementFinder} element
+     */
+    this.productPrice = function(productPrice){
+        return element(by.cssContainingText('dd', productPrice));
     }
 
     this.returnToProductsPageButton = $("div.button-row a.mat-flat-button.mat-primary");

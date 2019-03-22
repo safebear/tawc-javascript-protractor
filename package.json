@@ -4,7 +4,9 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "protractor ./test/protractor.conf.js"
+    "test": "protractor ./test/protractor.conf.js",
+    "startSelenium": "webdriver-manager start",
+    "updateSelenium": "webdriver-manager update" 
   },
   "repository": {
     "type": "git",

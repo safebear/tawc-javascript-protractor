@@ -10,25 +10,74 @@ const checks = require("../support/checks");
 // Test Data
 const using = require("jasmine-data-provider");
 const products = require("../data/product-data.module.js");
+const editProducts = require("../data/edit-product-data.module.js")
+
+// Helper functions
+async function deleteProducts(product){
+
+  // Check for a product that's been created by the test data
+  while(await checks.elementsArePresent(productsPage.getProductInTable(product.name))){
+
+    await actions.clickOnFirstElementInList(productsPage.getProductInTable(product.name));
+
+    expect(checks.getUrl()).toContain(viewProductPage.url);
+
+    actions.clickOnElement(viewProductPage.deleteButton);
+
+    expect(checks.getUrl()).toContain(productsPage.url);
+  }
+
+  // Check for a product that's been edited by the test data
+  while(await checks.elementsArePresent(productsPage.getProductInTable(product.editName))){
+
+    await actions.clickOnFirstElementInList(productsPage.getProductInTable(product.editName));
+
+    expect(checks.getUrl()).toContain(viewProductPage.url);
+
+    actions.clickOnElement(viewProductPage.deleteButton);
+
+    expect(checks.getUrl()).toContain(productsPage.url);
+  }
+
+}
+
+async function createProduct(product){
+
+  while(!await checks.elementsArePresent(productsPage.getProductInTable(product.name))){
+
+  
+    expect(checks.getUrl()).toContain(productsPage.url);
 
 
-using(products.productInfo, function(product, description) {
+    actions.clickOnElement(productsPage.addProduct);
+
+    expect(checks.getUrl()).toContain(addProductPage.url);
+
+
+    actions.typeText(addProductPage.productName, product.name);
+
+    actions.typeText(addProductPage.productDescription, product.description);
+
+    actions.typeText(addProductPage.productPrice, product.price);
+
+
+    actions.clickOnElement(addProductPage.submitButton);
+
+
+    expect(checks.getUrl()).toContain(viewProductPage.url);
+
+
+    actions.clickOnElement(viewProductPage.returnToProductsPageButton);
+
+    // ASSERT: We're returned to the `Products Page`.
+    expect(checks.getUrl()).toContain(productsPage.url);
+
+  }
+
+}
+
+using(editProducts.productEditInfo, function(product, description) {
   describe("createProductTests", function() {
-
-    async function deleteProducts(){
-
-      while(await checks.elementsArePresent(productsPage.getProductInTable(product))){
-
-        await actions.clickOnFirstElementInList(productsPage.getProductInTable(product));
-
-        expect(checks.getUrl()).toContain(viewProductPage.url);
-
-        actions.clickOnElement(viewProductPage.deleteButton);
-
-        expect(checks.getUrl()).toContain(productsPage.url);
-      }
-
-    }
 
     beforeEach( function(){
 
@@ -36,7 +85,7 @@ using(products.productInfo, function(product, description) {
 
       // CPSU01
       // SETUP: Check whether the `Product` is present in the list, if it's there, delete it.
-      deleteProducts();
+      deleteProducts(product);
 
     });
 
@@ -45,7 +94,7 @@ using(products.productInfo, function(product, description) {
       // CPTD01
       // TEARDOWN: Delete the `Product` that was created.
       // ASSERT: `Product` is no longer listed.
-      deleteProducts();
+      deleteProducts(product);
 
     });
 
@@ -53,17 +102,14 @@ using(products.productInfo, function(product, description) {
 
 
       // ASSERT: `Product` isn't in list. 
-
-      expect(await checks.elementsArePresent(productsPage.getProductInTable(product))).toBe(false);
+      expect(await checks.elementsArePresent(productsPage.getProductInTable(product.name))).toBe(false);
 
       // CP01
       // Navigate to the `Products Page`
       // Already done.
 
-
       // ASSERT: We're on the `Products Page` of the Website
       expect(checks.getUrl()).toContain(productsPage.url);
-
 
       // CP02
       // Click on the `Add Product` button
@@ -86,11 +132,10 @@ using(products.productInfo, function(product, description) {
       // ASSERT: The `View` product page opens.
       expect(checks.getUrl()).toContain(viewProductPage.url);
 
-
       // ASSERT: The product details are correct (`name`, `description`, `price`).
-      expect(await checks.elementsArePresent(viewProductPage.productName(product))).toBe(true);
-      expect(await checks.elementsArePresent(viewProductPage.productName(product))).toBe(true);
-      expect(await checks.elementsArePresent(viewProductPage.productName(product))).toBe(true);
+      expect(await checks.elementsArePresent(viewProductPage.productName(product.name))).toBe(true);
+      expect(await checks.elementsArePresent(viewProductPage.productDescription(product.description))).toBe(true);
+      expect(await checks.elementsArePresent(viewProductPage.productPrice(product.price))).toBe(true);
 
       // CP05
       // Press the `Products Page` button.
@@ -100,24 +145,62 @@ using(products.productInfo, function(product, description) {
       expect(checks.getUrl()).toContain(productsPage.url);
 
       // ASSERT: The new `Product` is listed.
-      expect(await checks.elementsArePresent(productsPage.getProductInTable(product))).toBe(true);
-
-      
+      expect(await checks.elementsArePresent(productsPage.getProductInTable(product.name))).toBe(true);
+      expect(await checks.elementsArePresent(productsPage.getProductInTable(product.price))).toBe(true);
 
     });
   });
 });
 
-// describe("readUpdateDeleteProductTests", function() {
-//   beforeEach(function() {
-//     browser.get("");
-//   });
+using(editProducts.productEditInfo, function(products, description) {
 
-//   using(products.productInfo, function(product, description) {
-//     it("should delete a product" + description, function() {
+  describe("readUpdateDeleteProductTests", function() {
 
+    beforeEach(function() {
+ 
+      actions.goToWebsite();
+
+      // DPSU01
+      // SETUP: Check whether the `Product` is listed, if it's not, create it.
+      createProduct(products)
+ 
+    });
+
+    afterEach(function(){
+      deleteProducts(products);
+    })
+
+    it("should delete a product" + description, async function() {
+
+      // ASSERT: `Product` in list. 
+      expect(await checks.elementsArePresent(productsPage.getProductInTable(products.name))).toBe(true);
+
+      // DP01
+      // Navigate to the `Products Page`
+      // Done in the 'before' statement
+
+      // ASSERT: We're on the `Products Page` of the Website
+      expect(checks.getUrl()).toContain(productsPage.url);
+
+      // DP02
+      // Click on the `Product` name
+      await actions.clickOnFirstElementInList(productsPage.getProductInTable(products.name));
+
+      // ASSERT: We're on the `View Product` page
+      expect(checks.getUrl()).toContain(viewProductPage.url);
+
+      // DP03
+      // Click on the `Delete Product` button
+      actions.clickOnElement(viewProductPage.deleteButton);
+
+      // ASSERT: We're returned to the `Products Page`
+      expect(checks.getUrl()).toContain(productsPage.url);
+
+
+      // ASSERT: The `Product` is no longer listed.
+      expect(await checks.elementsArePresent(productsPage.getProductInTable(products.name))).toBe(false);
       
-//     });
-//   });
-// });
+    });
+  });
+});
 
