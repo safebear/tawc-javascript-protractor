@@ -38,6 +38,7 @@ var ViewProductPage = function(){
 
     this.deleteButton = $("mat-card-actions a.mat-flat-button.mat-warn");
 
+    this.editProductButton = $("mat-card-actions a.mat-flat-button.mat-primary");
 
 };
 module.exports = new ViewProductPage();

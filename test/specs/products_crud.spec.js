@@ -2,6 +2,7 @@
 const productsPage = require("../page_objects/products.page");
 const addProductPage = require("../page_objects/add-product.page");
 const viewProductPage = require("../page_objects/view-product.page");
+const editProductPage = require("../page_objects/edit-product.page");
 
 // Actions and Checks
 const actions = require("../support/actions");
@@ -170,7 +171,7 @@ using(editProducts.productEditInfo, function(products, description) {
       deleteProducts(products);
     })
 
-    it("should delete a product" + description, async function() {
+    it("should delete a product called " + description, async function() {
 
       // ASSERT: `Product` in list. 
       expect(await checks.elementsArePresent(productsPage.getProductInTable(products.name))).toBe(true);
@@ -201,6 +202,115 @@ using(editProducts.productEditInfo, function(products, description) {
       expect(await checks.elementsArePresent(productsPage.getProductInTable(products.name))).toBe(false);
       
     });
+
+    it("should view a product called " + description, async function() {
+
+      // VPSU01
+      // SETUP: Check whether the `Product` is present in the list, if it's not, create it.
+      // ASSERT: `Product` in list. 
+      // All done in the 'before' method
+
+      // VP01
+      // Navigate to the `Products Page`
+      // ASSERT: We're on the `Products Page` of the Website
+      // All done in the 'before' method
+
+      // VERIFY: The `name` and `description` are correct.
+      expect(await checks.elementsArePresent(productsPage.getProductInTable(products.name))).toBe(true);
+      expect(await checks.elementsArePresent(productsPage.getProductInTable(products.price))).toBe(true);
+
+      // VP02
+      // Click on the `Product` name
+      await actions.clickOnFirstElementInList(productsPage.getProductInTable(products.name));
+
+      // ASSERT: We're on the `View Product` page
+      expect(checks.getUrl()).toContain(viewProductPage.url);
+
+      // VERIFY: The `name`, `description` and `price` of the product are correct.
+      expect(await checks.elementsArePresent(viewProductPage.productName(products.name))).toBe(true);
+      expect(await checks.elementsArePresent(viewProductPage.productDescription(products.description))).toBe(true);
+      expect(await checks.elementsArePresent(viewProductPage.productPrice(products.price))).toBe(true);
+
+      // VPTD01
+      // TEARDOWN: Delete the `Product` that was created.
+      // ASSERT: `Product` is no longer listed.
+      // Done in the 'after' method
+
+    });
+
+    it("should edit a product called " + description, async function() {
+
+      // EPSU01
+      // SETUP: Check whether the `Product` is present in the list, if it's not, create it.
+      // ASSERT: `Product` in list. 
+      // Done in the 'before' method.
+
+      // EP01
+      // Navigate to the `Products Page`
+      // ASSERT: We're on the `Products Page` of the Website
+      // Done in the 'before' method
+
+      // EP02
+      // Click on the `Product` name
+      await actions.clickOnFirstElementInList(productsPage.getProductInTable(products.name));
+
+
+      // ASSERT: We're on the `View Product` page
+      expect(checks.getUrl()).toContain(viewProductPage.url);
+
+      // EP03
+      // Click on the `Edit Product` button
+      actions.clickOnElement(viewProductPage.editProductButton);
+
+      // ASSERT: We're on the `Edit Product Page`
+      expect(checks.getUrl()).toContain(editProductPage.url);
+
+      // EP04
+      // Clear the `name`, `description` and `price` fields.
+      actions.clearText(editProductPage.productName);
+      actions.clearText(editProductPage.productDescription);
+      actions.clearText(editProductPage.productPrice);
+
+      // VERIFY: The fields are empty.
+      expect(checks.getFieldValue(editProductPage.productName)).toMatch("");
+      expect(checks.getFieldValue(editProductPage.productDescription)).toMatch("");
+      expect(checks.getFieldValue(editProductPage.productPrice)).toMatch("");
+
+      // EP05
+      // Enter new details from the `test-data-edit-product.json` file
+      // New details are entered
+      actions.typeText(editProductPage.productName, products.editName);
+      actions.typeText(editProductPage.productDescription, products.editDescription);
+      actions.typeText(editProductPage.productPrice, products.editPrice);
+
+      // EP06
+      // Click on the `Save` button
+      actions.clickOnElement(editProductPage.saveProductButton);
+
+      // ASSERT: We are taken to the `View Product` screen
+      expect(checks.getUrl).toContain(viewProductPage.url);
+
+      // ASSERT: The `name`, `description` and `price` of the product have been updated.
+      expect(await checks.elementsArePresent(viewProductPage.productName(products.editName))).toBe(true);
+      expect(await checks.elementsArePresent(viewProductPage.productDescription(products.editDescription))).toBe(true);
+      expect(await checks.elementsArePresent(viewProductPage.productPrice(products.editPrice))).toBe(true);
+
+      // EP07
+      // Click on the `Products Page` button
+      actions.clickOnElement(viewProductPage.returnToProductsPageButton);
+
+      // ASSERT: The `name` and `description` have been updated.
+      expect(await checks.elementsArePresent(productsPage.getProductInTable(products.editName))).toBe(true);
+      expect(await checks.elementsArePresent(productsPage.getProductInTable(products.editPrice))).toBe(true);
+
+      // EPTD01
+      // TEARDOWN: Delete the `Product` that was created.
+      // ASSERT: `Product` is no longer listed.
+      // This happens in the 'after' method.
+
+    });
+
+
   });
 });
 

@@ -16,5 +16,8 @@ var Actions = function(){
     // Type text in input field
     this.typeText = async function (element, text) { return await element.sendKeys(text) }
 
+    // Clear a text field
+    this.clearText = async function (element) { return await element.clear() }
+
 };
 module.exports = new Actions();
