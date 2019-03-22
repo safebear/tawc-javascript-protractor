@@ -1,0 +1,27 @@
+{
+  "name": "test-protractor-course",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "protractor ./test/protractor.conf.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/safebear/test-protractor-course.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/safebear/test-protractor-course/issues"
+  },
+  "homepage": "https://github.com/safebear/test-protractor-course#readme",
+  "devDependencies": {
+    "protractor": "^5.4.2"
+  },
+  "dependencies": {
+    "jasmine-data-provider": "^2.2.0",
+    "protractor-beautiful-reporter": "^1.2.7"
+  }
+}
