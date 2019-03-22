@@ -11,8 +11,8 @@ var ViewProductPage = function(){
      * @param {object} product
      * @returns {ElementFinder} element
      */
-    this.productName = async function(product){
-        return await element(by.cssContainingText('h2', product.name));
+    this.productName = function(product){
+        return element(by.cssContainingText('h2', product.name));
     }
 
     this.returnToProductsPageButton = $("div.button-row a.mat-flat-button.mat-primary");
