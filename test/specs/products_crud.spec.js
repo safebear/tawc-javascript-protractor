@@ -152,7 +152,7 @@ using(productData, function(product) {
   });
 });
 
-using(productData, function(products) {
+using(productData, function(product) {
 
   describe("readUpdateDeleteProductTests", function() {
 
@@ -162,18 +162,18 @@ using(productData, function(products) {
 
       // DPSU01
       // SETUP: Check whether the `Product` is listed, if it's not, create it.
-      createProduct(products)
+      createProduct(product)
  
     });
 
     afterEach(function(){
-      deleteProducts(products);
+      deleteProducts(product);
     })
 
     it("should delete a product", async function() {
 
       // ASSERT: `Product` in list. 
-      expect(await checks.elementsArePresent(productsPage.getProductInTable(products.name))).toBe(true);
+      expect(await checks.elementsArePresent(productsPage.getProductInTable(product.name))).toBe(true);
 
       // DP01
       // Navigate to the `Products Page`
@@ -184,7 +184,7 @@ using(productData, function(products) {
 
       // DP02
       // Click on the `Product` name
-      await actions.clickOnFirstElementInList(productsPage.getProductInTable(products.name));
+      await actions.clickOnFirstElementInList(productsPage.getProductInTable(product.name));
 
       // ASSERT: We're on the `View Product` page
       expect(checks.getUrl()).toContain(viewProductPage.url);
@@ -198,7 +198,7 @@ using(productData, function(products) {
 
 
       // ASSERT: The `Product` is no longer listed.
-      expect(await checks.elementsArePresent(productsPage.getProductInTable(products.name))).toBe(false);
+      expect(await checks.elementsArePresent(productsPage.getProductInTable(product.name))).toBe(false);
       
     });
 
@@ -215,20 +215,20 @@ using(productData, function(products) {
       // All done in the 'before' method
 
       // VERIFY: The `name` and `description` are correct.
-      expect(await checks.elementsArePresent(productsPage.getProductInTable(products.name))).toBe(true);
-      expect(await checks.elementsArePresent(productsPage.getProductInTable(products.price))).toBe(true);
+      expect(await checks.elementsArePresent(productsPage.getProductInTable(product.name))).toBe(true);
+      expect(await checks.elementsArePresent(productsPage.getProductInTable(product.price))).toBe(true);
 
       // VP02
       // Click on the `Product` name
-      await actions.clickOnFirstElementInList(productsPage.getProductInTable(products.name));
+      await actions.clickOnFirstElementInList(productsPage.getProductInTable(product.name));
 
       // ASSERT: We're on the `View Product` page
       expect(checks.getUrl()).toContain(viewProductPage.url);
 
       // VERIFY: The `name`, `description` and `price` of the product are correct.
-      expect(await checks.elementsArePresent(viewProductPage.productName(products.name))).toBe(true);
-      expect(await checks.elementsArePresent(viewProductPage.productDescription(products.description))).toBe(true);
-      expect(await checks.elementsArePresent(viewProductPage.productPrice(products.price))).toBe(true);
+      expect(await checks.elementsArePresent(viewProductPage.productName(product.name))).toBe(true);
+      expect(await checks.elementsArePresent(viewProductPage.productDescription(product.description))).toBe(true);
+      expect(await checks.elementsArePresent(viewProductPage.productPrice(product.price))).toBe(true);
 
       // VPTD01
       // TEARDOWN: Delete the `Product` that was created.
@@ -251,7 +251,7 @@ using(productData, function(products) {
 
       // EP02
       // Click on the `Product` name
-      await actions.clickOnFirstElementInList(productsPage.getProductInTable(products.name));
+      await actions.clickOnFirstElementInList(productsPage.getProductInTable(product.name));
 
 
       // ASSERT: We're on the `View Product` page
@@ -278,9 +278,9 @@ using(productData, function(products) {
       // EP05
       // Enter new details from the `test-data-edit-product.json` file
       // New details are entered
-      actions.typeText(editProductPage.productName, products.editName);
-      actions.typeText(editProductPage.productDescription, products.editDescription);
-      actions.typeText(editProductPage.productPrice, products.editPrice);
+      actions.typeText(editProductPage.productName, product.editName);
+      actions.typeText(editProductPage.productDescription, product.editDescription);
+      actions.typeText(editProductPage.productPrice, product.editPrice);
 
       // EP06
       // Click on the `Save` button
@@ -291,17 +291,17 @@ using(productData, function(products) {
       expect(checks.getUrl()).toContain(viewProductPage.url);
 
       // ASSERT: The `name`, `description` and `price` of the product have been updated.
-      expect(await checks.elementsArePresent(viewProductPage.productName(products.editName))).toBe(true);
-      expect(await checks.elementsArePresent(viewProductPage.productDescription(products.editDescription))).toBe(true);
-      expect(await checks.elementsArePresent(viewProductPage.productPrice(products.editPrice))).toBe(true);
+      expect(await checks.elementsArePresent(viewProductPage.productName(product.editName))).toBe(true);
+      expect(await checks.elementsArePresent(viewProductPage.productDescription(product.editDescription))).toBe(true);
+      expect(await checks.elementsArePresent(viewProductPage.productPrice(product.editPrice))).toBe(true);
 
       // EP07
       // Click on the `Products Page` button
       actions.clickOnElement(viewProductPage.returnToProductsPageButton);
 
       // ASSERT: The `name` and `description` have been updated.
-      expect(await checks.elementsArePresent(productsPage.getProductInTable(products.editName))).toBe(true);
-      expect(await checks.elementsArePresent(productsPage.getProductInTable(products.editPrice))).toBe(true);
+      expect(await checks.elementsArePresent(productsPage.getProductInTable(product.editName))).toBe(true);
+      expect(await checks.elementsArePresent(productsPage.getProductInTable(product.editPrice))).toBe(true);
 
       // EPTD01
       // TEARDOWN: Delete the `Product` that was created.
