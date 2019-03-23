@@ -26,5 +26,6 @@ TO DO:
 5. Move browser.get to beforeall? Be good to get this working as it would speed it up massively against the slow website.
 6. Try against slow website
 7. Get CI working with TravisCI
+8. Convert to TypeScript - would this have solved my issues?
 
 
