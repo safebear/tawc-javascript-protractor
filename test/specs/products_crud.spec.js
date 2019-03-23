@@ -10,8 +10,15 @@ const checks = require("../support/checks");
 
 // Test Data
 const using = require("jasmine-data-provider");
-const products = require("../data/product-data.module.js");
-const editProducts = require("../data/edit-product-data.module.js")
+// const editProducts = require("../data/edit-product-data.module.js");
+const productData = require("../data/test-data.1.json");
+// const productDataJson = require("../data/json-product-data.module");
+
+// console.log(editProducts.productEditInfo);
+
+// const fs = require('fs');
+
+// let productData = fs.readFileSync("../data/test-data.json");    
 
 // Helper functions
 async function deleteProducts(product){
@@ -77,7 +84,7 @@ async function createProduct(product){
 
 }
 
-using(editProducts.productEditInfo, function(product, description) {
+using(productData.productInfo, function(product) {
   describe("createProductTests", function() {
 
     beforeEach( function(){
@@ -90,7 +97,7 @@ using(editProducts.productEditInfo, function(product, description) {
 
     });
 
-    afterEach(async function(){
+    afterEach( function(){
 
       // CPTD01
       // TEARDOWN: Delete the `Product` that was created.
@@ -99,7 +106,7 @@ using(editProducts.productEditInfo, function(product, description) {
 
     });
 
-    it("should create a product called " + description, async function() {
+    it("should create a product", async function() {
 
 
       // ASSERT: `Product` isn't in list. 
@@ -153,7 +160,7 @@ using(editProducts.productEditInfo, function(product, description) {
   });
 });
 
-using(editProducts.productEditInfo, function(products, description) {
+using(productData.productInfo, function(products) {
 
   describe("readUpdateDeleteProductTests", function() {
 
@@ -171,7 +178,7 @@ using(editProducts.productEditInfo, function(products, description) {
       deleteProducts(products);
     })
 
-    it("should delete a product called " + description, async function() {
+    it("should delete a product", async function() {
 
       // ASSERT: `Product` in list. 
       expect(await checks.elementsArePresent(productsPage.getProductInTable(products.name))).toBe(true);
@@ -203,7 +210,7 @@ using(editProducts.productEditInfo, function(products, description) {
       
     });
 
-    it("should view a product called " + description, async function() {
+    it("should view a product", async function() {
 
       // VPSU01
       // SETUP: Check whether the `Product` is present in the list, if it's not, create it.
@@ -238,7 +245,7 @@ using(editProducts.productEditInfo, function(products, description) {
 
     });
 
-    it("should edit a product called " + description, async function() {
+    it("should edit a product", async function() {
 
       // EPSU01
       // SETUP: Check whether the `Product` is present in the list, if it's not, create it.

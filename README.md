@@ -17,8 +17,10 @@ Clone and do npm install
 TO DO:
 
 1. Surround asyncs with try/catches
+2. Add data
 2. Add documentation and comments
 3. Write README
 4. Score this badboy
+5. Move browser.get to beforeall
 
 

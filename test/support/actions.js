@@ -11,7 +11,11 @@ var Actions = function(){
     this.clickOnElement = async function (element) {return await element.click() }
 
     // Click on first element in list of Elements
-    this.clickOnFirstElementInList = async function (elements) { return await elements.first().click(); }
+    this.clickOnFirstElementInList = async function (elements) { 
+        
+        return await elements.first().click(); 
+    
+    }
 
     // Type text in input field
     this.typeText = async function (element, text) { return await element.sendKeys(text) }
