@@ -10,15 +10,7 @@ const checks = require("../support/checks");
 
 // Test Data
 const using = require("jasmine-data-provider");
-// const editProducts = require("../data/edit-product-data.module.js");
-const productData = require("../data/test-data.1.json");
-// const productDataJson = require("../data/json-product-data.module");
-
-// console.log(editProducts.productEditInfo);
-
-// const fs = require('fs');
-
-// let productData = fs.readFileSync("../data/test-data.json");    
+const productData = require("../data/debug-data.json");
 
 // Helper functions
 async function deleteProducts(product){
@@ -84,7 +76,7 @@ async function createProduct(product){
 
 }
 
-using(productData.productInfo, function(product) {
+using(productData, function(product) {
   describe("createProductTests", function() {
 
     beforeEach( function(){
@@ -160,7 +152,7 @@ using(productData.productInfo, function(product) {
   });
 });
 
-using(productData.productInfo, function(products) {
+using(productData, function(products) {
 
   describe("readUpdateDeleteProductTests", function() {
 
