@@ -27,5 +27,7 @@ TO DO:
 6. Try against slow website
 7. Get CI working with TravisCI
 8. Convert to TypeScript - would this have solved my issues?
+9. Cross browser?
+10. On windows? 
 
 
