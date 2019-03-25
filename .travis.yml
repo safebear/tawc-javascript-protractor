@@ -1,0 +1,16 @@
+dist: precise
+language: node_js
+sudo: false
+node_js:
+  - "8"
+
+before_script:
+  - npm run startSelenium 2>&1 &
+  - sleep 3
+  - echo Selenium Server started
+#  - "npm start 2>&1 &" //for ref when/if we include the app starting in here
+#  - "sleep 1"
+#  - "echo test app started"
+
+script: 
+ - npm test

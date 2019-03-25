@@ -19,15 +19,14 @@ Clone and do npm install
 TO DO:
 
 1. Surround asyncs with try/catches
-2. Add data - DONE
 2. Add documentation and comments
 3. Write README
 4. Score this badboy
-5. Move browser.get to beforeall? Be good to get this working as it would speed it up massively against the slow website.
-6. Try against slow website
+5. Move browser.get to beforeall? Not needed - it doesn't seem to refresh the website each time
 7. Get CI working with TravisCI
 8. Convert to TypeScript - would this have solved my issues?
 9. Cross browser?
 10. On windows? 
+11. Run headless
 
 
